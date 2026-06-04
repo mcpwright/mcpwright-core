@@ -1,6 +1,6 @@
 [project]
 name = "mcpwright-core"
-version = "0.1.1"
+version = "0.1.2"
 description = "Shared runtime toolkit for the mcpwright suite of MCP servers — async HTTP client, cache, and server helpers."
 readme = "README.md"
 license = "MIT"
