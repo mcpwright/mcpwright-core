@@ -1,0 +1,141 @@
+[project]
+name = "mcpwright-core"
+version = "0.1.0"
+description = "Shared runtime toolkit for the mcpwright suite of MCP servers — async HTTP client, cache, and server helpers."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Devender Gollapally" }
+]
+requires-python = ">=3.12"
+keywords = [
+    "mcp", "model-context-protocol", "claude", "httpx", "toolkit",
+    "mcpwright",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.27.2",
+]
+
+[project.urls]
+Homepage = "https://github.com/mcpwright/mcpwright-core"
+Repository = "https://github.com/mcpwright/mcpwright-core"
+Issues = "https://github.com/mcpwright/mcpwright-core/issues"
+
+[build-system]
+requires = ["uv_build>=0.11.17,<0.12.0"]
+build-backend = "uv_build"
+
+# Distribution is "mcpwright-core"; the import package is "mcpwright_core".
+[tool.uv.build-backend]
+module-name = "mcpwright_core"
+
+# ============================================================================
+# Ruff — lint + format
+# ============================================================================
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "*.egg-info",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "F",      # Pyflakes
+    "I",      # isort
+    "B",      # flake8-bugbear
+    "UP",     # pyupgrade
+    "C4",     # flake8-comprehensions
+    "SIM",    # flake8-simplify
+    "TC",     # flake8-type-checking
+    "PTH",    # flake8-use-pathlib
+]
+ignore = [
+    "E501",   # line length (the formatter handles wrapping)
+    "B904",   # raise ... from err
+]
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/**/*.py" = ["S101", "S105", "S106"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["mcpwright_core"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+# ============================================================================
+# MyPy
+# ============================================================================
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+check_untyped_defs = true
+disallow_any_generics = false
+disallow_incomplete_defs = true
+disallow_untyped_calls = false
+disallow_untyped_defs = false
+no_implicit_optional = true
+no_implicit_reexport = true
+
+files = ["src/**/*.py"]
+
+# ============================================================================
+# Pytest
+# ============================================================================
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--showlocals",
+    "--tb=short",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=2.1.0",
+    "pytest>=9.0.3",
+    "pytest-asyncio>=1.4.0",
+    "respx>=0.23.1",
+    "ruff>=0.15.15",
+    "pre-commit>=3.6.0",
+    "detect-secrets>=1.5.0",
+]
