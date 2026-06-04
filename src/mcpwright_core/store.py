@@ -29,6 +29,8 @@ class BaseStore:
     - ``DB_NAME`` — the SQLite filename (e.g. ``"soi.sqlite3"``).
     - ``STORE_ENV_VAR`` — env var to override the store path.
     - ``DATA_TABLE`` — the table whose presence + non-emptiness means "loaded".
+      Must be a trusted identifier literal: it is interpolated into SQL in
+      :meth:`is_loaded`, not bound, so never wire it to runtime/config input.
 
     and add their own ``replace_*`` writers (which should call
     :meth:`_write_meta` inside their transaction) and query methods (which can
